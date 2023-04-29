@@ -78,3 +78,4 @@ gem "tailwindcss-rails", "~> 2.0"
 
 # reset css 
 gem 'normalize-rails'
+gem 'devise'
