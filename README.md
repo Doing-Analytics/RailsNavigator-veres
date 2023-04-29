@@ -1,24 +1,29 @@
 # README
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+BLOG FOR US 
 
-Things you may want to cover:
+with 
+  * Rails 7
+  * tailwind css 
+  * esbuild
+  * markdown editor and compiler
+  
+expect 
+  * rails guide chinese version
+  * blog ver Ted and Ning
 
-* Ruby version
 
-* System dependencies
+## Authors
 
-* Configuration
+- [@TedxTed](https://github.com/TedxTed)
+- [@cacachang](https://github.com/cacachang)
 
-* Database creation
+## Features
 
-* Database initialization
+- markdown editor / compiler
+- personal page
 
-* How to run the test suite
 
-* Services (job queues, cache servers, search engines, etc.)
 
-* Deployment instructions
-
-* ...
+## 🛠 Skills
+Javascript, HTML, CSS , rails , react , vue , tailwind 
