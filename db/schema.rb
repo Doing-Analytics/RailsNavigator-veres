@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_04_30_044231) do
+ActiveRecord::Schema[7.0].define(version: 2023_04_30_111117) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -62,6 +62,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_04_30_044231) do
     t.string "name"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.integer "tag_type"
   end
 
   create_table "topic_articles", force: :cascade do |t|
@@ -73,10 +74,21 @@ ActiveRecord::Schema[7.0].define(version: 2023_04_30_044231) do
     t.index ["topic_id"], name: "index_topic_articles_on_topic_id"
   end
 
+  create_table "topic_tags", force: :cascade do |t|
+    t.bigint "topic_id", null: false
+    t.bigint "tag_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["tag_id"], name: "index_topic_tags_on_tag_id"
+    t.index ["topic_id"], name: "index_topic_tags_on_topic_id"
+  end
+
   create_table "topics", force: :cascade do |t|
     t.string "name"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string "introduce"
+    t.boolean "highlighted"
   end
 
   create_table "users", force: :cascade do |t|
@@ -100,4 +112,6 @@ ActiveRecord::Schema[7.0].define(version: 2023_04_30_044231) do
   add_foreign_key "blogs", "users"
   add_foreign_key "topic_articles", "articles"
   add_foreign_key "topic_articles", "topics"
+  add_foreign_key "topic_tags", "tags"
+  add_foreign_key "topic_tags", "topics"
 end
