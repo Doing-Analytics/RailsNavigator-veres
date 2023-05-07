@@ -1,0 +1,7 @@
+@startuml
+
+:user: --> (Use)
+"enter to the topic " as (Use)
+
+
+@enduml

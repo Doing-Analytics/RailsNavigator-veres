@@ -1,101 +1,117 @@
-# This file should contain all the record creation needed to seed the database with its default values.
-# The data can then be loaded with the bin/rails db:seed command (or created alongside the database with db:setup).
-#
-# Examples:
-#
-#   movies = Movie.create([{ name: "Star Wars" }, { name: "Lord of the Rings" }])
-#   Character.create(name: "Luke", movie: movies.first)
-
-# db/seeds.rb
-
 require 'faker'
 
+def create_user(email)
+  User.create(email:, password: 'password123')
+end
+
+def create_blog(name, user)
+  Blog.create(name:, user:)
+end
+
+def create_topic(name, introduce)
+  Topic.create(name:, introduce:)
+end
+
+def create_category(name)
+  Category.create(name:)
+end
+
+def create_tag(name, type)
+  tag = Tag.create(name:)
+  tag.send("#{type}!")
+  tag
+end
+
+def create_article(title, content, user, category, tags)
+  Article.create(
+    title:,
+    content:,
+    user:,
+    category:,
+    tags:
+  )
+end
+
+def create_blog_article(blog, article)
+  BlogArticle.create(blog:, article:)
+end
+
+def create_topic_article(topic, article)
+  TopicArticle.create(topic:, article:)
+end
+
+def create_article_tag(article, tag)
+  ArticleTag.create(article:, tag:)
+end
+
+def create_topic_tag(topic, tag)
+  TopicTag.create(topic:, tag:)
+end
+
 # Users
-user1 = User.create(email: Faker::Internet.email, password: 'password123')
-user2 = User.create(email: Faker::Internet.email, password: 'password123')
+user1 = create_user(Faker::Internet.email)
+user2 = create_user(Faker::Internet.email)
 
 # Blogs
-blog1 = Blog.create(name: Faker::Name.name, user: user1)
-blog2 = Blog.create(name: Faker::Name.name, user: user2)
+blog1 = create_blog(Faker::Name.name, user1)
+blog2 = create_blog(Faker::Name.name, user2)
 
 # Topics
-if Topic.where(highlighted: true).blank?
-  rails = Topic.create(name: 'Rails Guide', introduce: 'Ning X Ted , 合作翻譯rails guide , 為自己而學，不為誰')
-end
-topic1 = Topic.create(name: Faker::Quote.singular_siegler, introduce: Faker::Quote.famous_last_words)
-topic2 = Topic.create(name: Faker::Quote.singular_siegler, introduce: Faker::Quote.famous_last_words)
+rails = create_topic('Rails Guide', 'Ning X Ted , 合作翻譯rails guide , 為自己而學，不為誰') if Topic.where(highlighted: true).blank?
+topic1 = create_topic(Faker::Quote.singular_siegler, Faker::Quote.famous_last_words)
+topic2 = create_topic(Faker::Quote.singular_siegler, Faker::Quote.famous_last_words)
 
 # Categories
-category1 = Category.create(name: Faker::Nation.capital_city)
-category2 = Category.create(name: Faker::Nation.capital_city)
-category3 = Category.create(name: Faker::Nation.capital_city)
-category4 = Category.create(name: Faker::Nation.capital_city)
+category1 = create_category(Faker::Nation.capital_city)
+category2 = create_category(Faker::Nation.capital_city)
+category3 = create_category(Faker::Nation.capital_city)
+category4 = create_category(Faker::Nation.capital_city)
 
 # Tags
-
-tag1 = Tag.create(name: Faker::Color.color_name)
-tag1.article!
-tag2 = Tag.create(name: Faker::Color.color_name)
-tag2.article!
-tag3 = Tag.create(name: Faker::Color.color_name)
-tag3.article!
-tag4 = Tag.create(name: Faker::Color.color_name)
-tag4.article!
+tag1 = create_tag(Faker::Color.color_name, :article)
+tag2 = create_tag(Faker::Color.color_name, :article)
+tag3 = create_tag(Faker::Color.color_name, :article)
+tag4 = create_tag(Faker::Color.color_name, :article)
+tag_rails = create_tag('Guide', :topic) if rails
+tag1_to = create_tag(Faker::Hobby.activity, :topic)
+tag2_to = create_tag(Faker::Hobby.activity, :topic)
+tag3_to = create_tag(Faker::Hobby.activity, :topic)
+tag4_to = create_tag(Faker::Hobby.activity, :topic)
+tag5_to = create_tag(Faker::Hobby.activity, :topic)
 
 # Articles
-article1 = Article.create(title: Faker::Quotes::Chiquito.term, content: Faker::Quote.matz, user: user1,
-                          category: category1)
-article2 = Article.create(title: Faker::Quotes::Chiquito.term, content: Faker::Quote.matz, user: user1,
-                          category: category2)
-article3 = Article.create(title: Faker::Quotes::Chiquito.term,
-                          content: Faker::Quote.matz, user: user2, category: category3)
-article4 = Article.create(title: Faker::Quotes::Chiquito.term, content: Faker::Quote.matz,
-                          user: user2, category: category4)
+article1 = create_article(Faker::Quotes::Chiquito.term, Faker::Quote.matz, user1, category1, [tag1])
+article2 = create_article(Faker::Quotes::Chiquito.term, Faker::Quote.matz, user1, category2, [tag2])
+article3 = create_article(Faker::Quotes::Chiquito.term, Faker::Quote.matz, user2, category3, [tag3])
+article4 = create_article(Faker::Quotes::Chiquito.term, Faker::Quote.matz, user2, category4, [tag4])
 
 # BlogArticles
-BlogArticle.create(blog: blog1, article: article1)
-BlogArticle.create(blog: blog1, article: article2)
-BlogArticle.create(blog: blog2, article: article3)
-BlogArticle.create(blog: blog2, article: article4)
+create_blog_article(blog1, article1)
+create_blog_article(blog1, article2)
+create_blog_article(blog2, article3)
+create_blog_article(blog2, article4)
 
 # TopicArticles
-TopicArticle.create(topic: topic1, article: article1)
-TopicArticle.create(topic: topic1, article: article2)
-TopicArticle.create(topic: topic2, article: article3)
-TopicArticle.create(topic: topic2, article: article4)
+create_topic_article(topic1, article1)
+create_topic_article(topic1, article2)
+create_topic_article(topic2, article3)
+create_topic_article(topic2, article4)
 
 # ArticleTags
-ArticleTag.create(article: article1, tag: tag1)
-ArticleTag.create(article: article2, tag: tag2)
-ArticleTag.create(article: article3, tag: tag3)
-ArticleTag.create(article: article4, tag: tag4)
+create_article_tag(article1, tag1)
+create_article_tag(article2, tag2)
+create_article_tag(article3, tag3)
+create_article_tag(article4, tag4)
 
 # Topics
-topic1 = Topic.create(name: Faker::Book.genre)
-topic2 = Topic.create(name: Faker::Book.genre)
-topic3 = Topic.create(name: Faker::Book.genre)
-
-# Tags
-if rails
-  tag_rails = Tag.create(name: 'Guide')
-  tag_rails.topic!
-end
-tag1_to = Tag.create(name: Faker::Hobby.activity)
-tag1_to.topic!
-tag2_to = Tag.create(name: Faker::Hobby.activity)
-tag2_to.topic!
-tag3_to = Tag.create(name: Faker::Hobby.activity)
-tag3_to.topic!
-tag4_to = Tag.create(name: Faker::Hobby.activity)
-tag4_to.topic!
-tag5_to = Tag.create(name: Faker::Hobby.activity)
-tag5_to.topic!
+topic1 = create_topic(Faker::Book.genre, nil)
+topic2 = create_topic(Faker::Book.genre, nil)
+topic3 = create_topic(Faker::Book.genre, nil)
 
 # TopicTags
-TopicTag.create(topic: topic1, tag: tag_rails) if rails
-
-TopicTag.create(topic: topic1, tag: tag1_to)
-TopicTag.create(topic: topic1, tag: tag2_to)
-TopicTag.create(topic: topic2, tag: tag3_to)
-TopicTag.create(topic: topic3, tag: tag4_to)
-TopicTag.create(topic: topic3, tag: tag5_to)
+create_topic_tag(topic1, tag_rails) if tag_rails
+create_topic_tag(topic1, tag1_to)
+create_topic_tag(topic1, tag2_to)
+create_topic_tag(topic2, tag3_to)
+create_topic_tag(topic3, tag4_to)
+create_topic_tag(topic3, tag5_to)

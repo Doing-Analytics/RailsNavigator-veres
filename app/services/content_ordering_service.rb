@@ -1,6 +1,5 @@
 class ContentOrderingService
   def initialize(args = {})
-    debugger
     @model = args[:model]
     @highlighted = highlight
     @sorted = sort

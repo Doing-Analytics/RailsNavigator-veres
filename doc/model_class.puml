@@ -1,0 +1,101 @@
+@startuml
+left to right direction
+
+class User {
+  +id : integer
+  +email : string
+  +encrypted_password : string
+  +reset_password_token : string
+  +reset_password_sent_at : datetime
+  +remember_created_at : datetime
+  +created_at : datetime
+  +updated_at : datetime
+}
+
+class Blog {
+  +id : integer
+  +name : string
+  +user_id : integer
+  +created_at : datetime
+  +updated_at : datetime
+}
+
+class Article {
+  +id : integer
+  +title : string
+  +content : text
+  +user_id : integer
+  +category_id : integer
+  +published_at : datetime
+  +created_at : datetime
+  +updated_at : datetime
+}
+
+class Category {
+  +id : integer
+  +name : string
+  +created_at : datetime
+  +updated_at : datetime
+}
+
+class Tag {
+  +id : integer
+  +name : string
+  +created_at : datetime
+  +updated_at : datetime
+  +tag_type : integer
+}
+
+class Topic {
+  +id : integer
+  +name : string
+  +created_at : datetime
+  +updated_at : datetime
+  +introduce : string
+  +highlighted : boolean
+}
+
+class ArticleTag {
+  +id : integer
+  +article_id : integer
+  +tag_id : integer
+  +created_at : datetime
+  +updated_at : datetime
+}
+
+class BlogArticle {
+  +id : integer
+  +blog_id : integer
+  +article_id : integer
+  +created_at : datetime
+  +updated_at : datetime
+}
+
+class TopicArticle {
+  +id : integer
+  +topic_id : integer
+  +article_id : integer
+  +created_at : datetime
+  +updated_at : datetime
+}
+
+class TopicTag {
+  +id : integer
+  +topic_id : integer
+  +tag_id : integer
+  +created_at : datetime
+  +updated_at : datetime
+}
+
+User "1" -- "*" Blog : owns
+User "1" -- "*" Article : writes
+Blog "1" -- "*" BlogArticle : has
+Article "1" -- "*" ArticleTag : has
+Tag "1" -- "*" ArticleTag : tagged
+Topic "1" -- "*" TopicArticle : has
+Tag "1" -- "*" TopicTag : tagged
+Topic "1" -- "*" TopicTag : has
+
+Category "1" -- "*" Article : has
+
+@enduml

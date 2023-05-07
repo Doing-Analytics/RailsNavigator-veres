@@ -82,3 +82,5 @@ gem 'devise'
 
 
 gem 'faker'
+
+gem 'acts_as_list'
