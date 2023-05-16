@@ -6,7 +6,9 @@ class TopicsController < ApplicationController
     p @topic_collection = ContentOrderingService.new(model: @topic).call
   end
 
-  def show; end
+  def show
+    @article = Topic.find(1).topic_articles.map(&:article)
+  end
 
   def new
     @topic = Topic.new
